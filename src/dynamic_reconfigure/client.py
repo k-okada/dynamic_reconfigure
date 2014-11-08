@@ -201,9 +201,13 @@ class Client(object):
                                     changes[name] = val_type(const['value'])
                                     found = True
                         if not found:
-                            if type(value) is unicode:
-                                changes[name] = unicode(value)
+                            if sys.version < '3':
+                                if type(value) is unicode:
+                                    changes[name] = unicode(value)
+                                else:
+                                    changes[name] = dest_type(value)
                             else:
+                                print(value, type(value))
                                 changes[name] = dest_type(value)
 
                     except ValueError as e:
